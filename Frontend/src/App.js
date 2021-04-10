@@ -3,80 +3,82 @@ import React, {Component, useState, useEffect} from "react";
 import Axios from 'axios';
 
 function App() {
-  // const getMovies = () => {
-  //   Axios.get('http://localhost:3002/api/movies',{
-  //     // movieList: movieList,
-  //     result: result,
-  //   }).then(() => {
-  //     alert('success getting movies')
-  //   })
-  // };
 
-  const [genreName, newGenre] = useState('');
   const [movieList, setMovieList] = useState([]);
-  // const [movieListGenre] = useState('');
-  // const [setMovieListGenre] = useState([]);
-  // const [movieListGenre, showMovieListByGenre] = useState([]);
+  const [newUserId, setNewUserId] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newBirthday, setNewBirthday] = useState('');
+  const [Name, setServiceName] = useState('');
+  const [userID, setUserID] = useState('');
 
   useEffect(() => {
     Axios.get('http://localhost:3002/api/getMovies').then((response) => {setMovieList(response.data)
   })
   }, [])
 
-  // useEffect(() => {
-  //   Axios.get('http://localhost:3002/api/searchByGenre', {params: {
-  //     genreName : movieListGenre}}).then((response) => {showMovieListByGenre(response.data)
-  // })
-  // }, [])
 
-  // const showMovieListByGenre = (movieListGenre) => {
-  //   Axios.get(`http://localhost:3002/api/searchByGenre`, movieListGenre)
-  //   .then((response) => {
-  //     showMovieListByGenre(response.data)
-  //   })
-  // };
-  // this.setState({movieListGenre});
-
-
-  const submitNewGenre = () => {
-    Axios.post('http://localhost:3002/api/insert', {
-      genreName: genreName,
+  const submitNewUserID = () => {
+    Axios.post('http://localhost:3002/api/insertNewUser', {
+      newUserId: newUserId,
+      newPassword: newPassword,
+      newBirthday: newBirthday
     }).then(() => {
       alert('success insert')
-    })
+    });
+  };
+
+  // const updatePassword = () => {
+  //   Axios.put();
+
+  // };
+
+  const submitNewStreaming = () => {
+    console.log("Try to call insert");
+    Axios.post('https://localhost:3002/api/insertSubscribed', {
+      Name: Name,
+      userID: userID
+    }).then(() => {
+      alert('successful insert')
+    });
+    console.log("Tried to call insert");
   };
 
   return (
     <div className="App">
-      <h1> MOVIE SEEKER </h1>
-       <div className = "form">
-      <label> Add New Genre:</label> 
-      <input type= "text" name = "genreName" onChange={(e) => {
-        newGenre(e.target.value)
+      <h1> MOVIE SEEKER CRUD</h1>
+      <div className = "form">         
+      <h2> Create New User:</h2>
+      <label>User Id: </label> 
+      <input type= "text" name = "newUserId" onChange={(e) => {
+        setNewUserId(e.target.value)
         }}/>
-      <button onClick = {submitNewGenre}> button? </button> 
+      <label>User Password: </label> 
+        <input type= "text" name = "newPassword" onChange={(e) => {
+        setNewPassword(e.target.value)
+        }}/>
+      <label> Enter your Birthday: </label> 
+        <input type= "text" name = "newBirthday" onChange={(e) => {
+        setNewBirthday(e.target.value)
+        }}/>
+      <button onClick = {submitNewUserID}> submit </button> 
 
-      {/* <label> put text here </label>
-            <input type = "text" id= "movieListGenre" onChange = { (e) => {
-              // showMovieListByGenre(e.target.value)
-            }}/>
-            <button onClick={ () => {
-              showMovieListByGenre(movieListGenre)
-            }}> this is button </button> */}
-      
-      {/* {showMovieListByGenre.map((val) => {
-        return (
-          <div className = "Card">
-            <p> MovieName: {val.title}</p>
-            <p> Movie Rating: {val.rating} </p>
-          </div>
-        );
-      })} */}
+      <p></p>
+
+      <label>Streaming Platform Name:</label>
+      <input type="text" name= "Name" onChange={(e) =>{
+          setServiceName(e.target.value)
+        }} />
+        <label>User ID:</label>
+        <input type="text" name="userID" onChange={(e) => {
+          setUserID(e.target.value)
+        }}/>
+        <button onClick = {submitNewStreaming}> Submit </button>
+
 
       {movieList.map((val) => {
         return (
           <div className = "card">
-            <p> MovieName: {val.title}</p>
+            <p> Movie Name: {val.title}</p>
             <p> Movie Rating: {val.rating} </p>
           </div>
         );
@@ -90,5 +92,3 @@ function App() {
 export default App;
 
 // npm start
-
-
