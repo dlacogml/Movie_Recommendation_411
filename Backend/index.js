@@ -73,14 +73,16 @@ app.post('/api/insertSubscribed', (require, response) => {
   
 })
 
-app.put("/api/update", (require, response) => {
-    const movieName = require.body.movieName;
-    const movieReview = require.body.movieReview;
+app.put("/api/updateUserPassword", (require, response) => {
+    const newPassword = require.body.newPassword;
+    const oldPassword = require.body.oldPassword;
 
-    const sqlUpdate = "UPDATE `movie_reviews` SET `movieReview` = ? WHERE `movieName`= ?";
-    db.query(sqlUpdate, [movieReview,movieName ], (err, result) => {
-        if (err) 
-        console.log(error);
+    const sqlUpdate = "UPDATE `User` SET `Password` = ? WHERE `Password`= ?";
+    db.query(sqlUpdate, [newPassword, oldPassword], (err, result) => {
+        if (err) {
+            response.send("wrong password/user");
+        } 
+        console.log("reached inside?");      
     })
 });
 
