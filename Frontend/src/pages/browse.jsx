@@ -8,7 +8,7 @@ import Axios from 'axios';
   function BrowsePage() {
 
     const [keyword, setKeyword] = useState('');
-    const [returnMovieList, setReturnMovieList] = useState([]);
+    const [returnMovieListTitle, setReturnMovieListTitle] = useState([]);
 
     const getMoviesByTitle = () => {
       Axios.get('http://localhost:3002/api/searchMoviesByTitle', {
@@ -16,7 +16,7 @@ import Axios from 'axios';
           keyword:keyword
         }
       }).then((response) => {
-        setReturnMovieList(response.data)
+        setReturnMovieListTitle(response.data)
       })
     };
 
@@ -81,7 +81,7 @@ import Axios from 'axios';
             }}/>
           <button onClick = {getMoviesByTitle}>Search</button>
           <div>
-            {returnMovieList.map((val) => {
+            {returnMovieListTitle.map((val) => {
               return(
                 <div className = "card">
                 <p> Movie Title: {val.title} </p>
