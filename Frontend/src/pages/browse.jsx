@@ -1,9 +1,35 @@
 /*index.jsx*/
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {Component, useState} from "react";
+import {Link} from "react-router-dom";
+import Axios from 'axios';
 
 //Functional Component 
-const BrowsePage = () => {
+// const BrowsePage = () => {
+  function BrowsePage() {
+
+    const [keyword, setKeyword] = useState('');
+    const [returnMovieList, setReturnMovieList] = useState([]);
+
+    const getMoviesByTitle = () => {
+      Axios.get('http://localhost:3002/api/searchMoviesByTitle', {
+        params: {
+          keyword:keyword
+        }
+      }).then((response) => {
+        setReturnMovieList(response.data)
+      })
+    };
+
+    const getMoviesByGenre = () => {
+      Axios.get('http://localhost:3002/api/searchMoviesByGenre', {
+        params: {
+          keyword:keyword
+        }
+      }).then((response) => {
+        setReturnMovieList(response.data)
+      })
+    };
+
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
@@ -43,8 +69,44 @@ const BrowsePage = () => {
           </header>
           
           <p>Search Movies</p>
-          <label>by keyword: </label>
-          <input type="text" name="Keyword"/>
+          <div className="checkbox mb-3">
+              <label>
+                <input type="checkbox" defaultValue="filter-on-streaming" /> Only show movies that are on streaming services that you are subscribed to
+              </label>
+            </div>
+          <br />
+          <label>by Title </label>
+          <input type= "text" name = "keyword" onChange={(e) => {
+            setKeyword(e.target.value)
+            }}/>
+          <button onClick = {getMoviesByTitle}>Search</button>
+          <div>
+            {returnMovieList.map((val) => {
+              return(
+                <div className = "card">
+                <p> Movie Title: {val.title} </p>
+                <p> Movie Rating: {val.rating} </p>
+                </div>
+              );
+            })}
+          </div>
+
+          <br />
+          <label>by Genre </label>
+          <input type= "text" name = "keyword" onChange={(e) => {
+            setKeyword(e.target.value)
+            }}/>
+          <button onClick = {getMoviesByGenre}>Search</button>
+          <div>
+            {returnMovieList.map((val) => {
+              return(
+                <div className = "card">
+                <p> Movie Title: {val.title} </p>
+                <p> Movie Rating: {val.rating} </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
