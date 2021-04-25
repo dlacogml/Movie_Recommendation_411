@@ -2,23 +2,29 @@
 // import React from "react";
 import React, {Component, useState, useEffect} from "react";
 import Axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter, Route} from "react-router-dom";
+import AccountInfoPage from "./user"; ///< index.jsx will be automatically imported 
 
 const LoginPage = () => {
 
+  // sessionStorage.setItem('userID', userID)
   const [userID, setUserID] = useState('');
-  
-  const saveUserID = () => {
-    Axios.post('http://localhost:3002/api/saveUserID', {
-      userID : userID
-    }).then(() => {
-      alert('success insert')
-    });
+    // const USER_ID = sessionStorage.getItem('userID');
+  const[Password, setPassword]=useState('');
+  const[returnUserAccountInfo, setReturnUserAccountInfo]=useState([]);
+
+  const getAccountInfo = () => {
+    Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
+    {
+      params: {
+        UserId: userID
+      }
+    }).then((response) => {
+      setReturnUserAccountInfo(response.data)
+    })
   };
  
-  sessionStorage.setItem('userID', userID);
-  // const USER_ID = sessionStorage.getItem('userID');
-  
+
   return (
     <div>
         {/* <link href="signin.css" rel="stylesheet" /> */}
@@ -32,7 +38,9 @@ const LoginPage = () => {
               <label htmlFor="floatingInput">ID</label>
             </div>
             <div className="form-floating">
-              <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+              <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={(e) => {
+        setPassword(e.target.value)
+        }}/>
               <label htmlFor="floatingPassword">Password</label>
             </div>
             <div className="checkbox mb-3">
@@ -40,7 +48,17 @@ const LoginPage = () => {
                 <input type="checkbox" defaultValue="remember-me" /> Remember me
               </label>
             </div>
-            <button className="w-100 btn btn-lg btn-primary" onClick = {saveUserID}><Link to="/AccountInfo">Sign in</Link></button>
+            <button className="w-100 btn btn-lg btn-primary" type = "submit">Sign In</button>     
+            {
+              returnUserAccountInfo.map((val) => {
+                if(Password == val.Password) {
+                  sessionStorage.setItem('userID', userID)
+                  return (<BrowserRouter><Route path="/AccountInfo" component={AccountInfoPage}></Route> </BrowserRouter>);
+                } else {
+                  return (<text> Login not successful</text>);
+                }
+              })
+            }
           </form>
         </main>
       </div>

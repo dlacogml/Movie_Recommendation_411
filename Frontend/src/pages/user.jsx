@@ -1,11 +1,12 @@
-/*users.jsx*/
+/*user.jsx*/
 import React, {Component, useState} from "react";
 import {Link} from "react-router-dom";
 import Axios from 'axios';
 
 
-const AccountInfoPage = () => {
-
+// const AccountInfoPage = () => {
+function AccountInfoPage() {
+  const USER_ID = sessionStorage.getItem('userID');
 
   const[UserId, setUserID]=useState('');
   const[Password, setPassword]=useState('');
@@ -19,7 +20,7 @@ const AccountInfoPage = () => {
     Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
     {
       params: {
-        UserId: UserId
+        UserId: USER_ID
       }
     }).then((response) => {
       setReturnUserAccountInfo(response.data)
@@ -28,14 +29,14 @@ const AccountInfoPage = () => {
 
   const updateUserPassword = () => {
     Axios.put(`http://localhost:3002/api/updatePassword`, {
-      UserId : UserId,
+      UserId : USER_ID,
       OldPassword : OldPassword,
       NewPassword : NewPassword
     });
   };
 
   const deleteUserAccount = () => {
-    Axios.delete(`http://localhost:3002/api/delete/${UserId}`,
+    Axios.delete(`http://localhost:3002/api/deleteUser/`,
     {data: {
       UserId: UserId,
       Password: Password
@@ -77,15 +78,14 @@ const AccountInfoPage = () => {
           
           <div className="container">
           <p>Your Account Info</p>
-
           <p>* * *</p>
-          <button onClick = {getAccountInfo} className="btn btn-outline-primary me-2">Show Account Details</button>
+          <button onClick = {() => {getAccountInfo()}} className="btn btn-outline-primary me-2">Show Account Details</button>
           <div className="text-end">
             {
               returnUserAccountInfo.map((val) => {
                 return(
                   <div>
-                    <p>UserId: {val.User_id} </p>
+                    <p>User Id: {val.User_id} </p>
                     <p>Birthday: {val.date_of_birth} </p>
                   </div>
                 );
