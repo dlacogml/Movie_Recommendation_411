@@ -41,7 +41,32 @@ const WatchedPage = () => {
               <button type="button" className="btn btn-primary"><Link to="/SignUp">Sign-Up</Link></button>
             </div>
           </header>
-          <p>watched page</p>
+
+          <div className="container">
+          <p>Your Movie Reviews</p>
+            <label>Movie Name</label>
+            <input type="text"/>
+            <label>Your Rating [0-10]</label>
+            <input type="text"/>
+            <label>Watched Date</label>
+            <input type="text"/>
+            <label>Watched Time</label>
+            <input type="text"/>
+            <p>
+              <button type="button" className="btn btn-outline-primary me-2">Create</button>
+              <button type="button" className="btn btn-outline-primary me-2">Update</button>
+              <button type="button" className="btn btn-outline-primary me-2">Delete</button>
+            </p>
+              
+            
+          </div>
+
+          <p></p>
+
+          <div className="container">
+          <p>Your Watch History</p>
+          </div>
+              
         </div>
       </div>
   );

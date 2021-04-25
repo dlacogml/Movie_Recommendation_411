@@ -41,8 +41,7 @@ const BrowsePage = () => {
               <button type="button" className="btn btn-primary"><Link to="/SignUp">Sign-Up</Link></button>
             </div>
           </header>
-          <p>browse page</p>
-
+          
           <p>Search Movies</p>
           <label>by keyword: </label>
           <input type="text" name="Keyword"/>
