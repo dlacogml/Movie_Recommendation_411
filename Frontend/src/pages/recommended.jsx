@@ -41,7 +41,13 @@ const RecommendedPage = () => {
               <button type="button" className="btn btn-primary"><Link to="/SignUp">Sign-Up</Link></button>
             </div>
           </header>
-          <p>recommended page</p>
+          <p>Your Recommended Movies</p>
+    
+              <p>Movie recommendations are made using the following three criteria:</p>
+              <div className="container">1. Movies with actors who have acted in movies that you have previously watched.</div> 
+              <div className="container">2. Movies watched by other users who have similar watch histories as yourself.</div>
+              <div className="container">3. Movies recommended based on your most watched genre.</div>
+      
         </div>
       </div>
   );
