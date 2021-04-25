@@ -38,7 +38,7 @@ const AccountInfoPage = () => {
           
           <div className="container">
           <p>Your Account Info</p>
-          
+          <p>* * *</p>
           <div className="text-end">
             <p>Update Your Password</p>
             <label>Old Password</label>
@@ -49,9 +49,9 @@ const AccountInfoPage = () => {
               <button type="button" className="btn btn-outline-primary me-2">Update</button>
             </p>
           </div>
-
+          <p>* * *</p>
           <div className="text-end">
-            <p>Delete Your Account</p>
+            <p>Delete Your Account [PERMANENT]</p>
             <label>Confirm Username</label>
             <input type="text"/>
             <label>Confirm Password</label>
