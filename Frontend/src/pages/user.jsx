@@ -9,9 +9,22 @@ const AccountInfoPage = () => {
 
   const[UserId, setUserID]=useState('');
   const[Password, setPassword]=useState('');
+
   const[OldPassword, setOldPassword]=useState('');
   const[NewPassword, setNewPassword]=useState('');
 
+  const[returnUserAccountInfo, setReturnUserAccountInfo]=useState([]);
+
+  const getAccountInfo = () => {
+    Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
+    {
+      params: {
+        UserId: UserId
+      }
+    }).then((response) => {
+      setReturnUserAccountInfo(response.data)
+    })
+  };
 
   const updateUserPassword = () => {
     Axios.put(`http://localhost:3002/api/updatePassword`, {
@@ -64,6 +77,22 @@ const AccountInfoPage = () => {
           
           <div className="container">
           <p>Your Account Info</p>
+
+          <p>* * *</p>
+          <button onClick = {getAccountInfo} className="btn btn-outline-primary me-2">Show Account Details</button>
+          <div className="text-end">
+            {
+              returnUserAccountInfo.map((val) => {
+                return(
+                  <div>
+                    <p>UserId: {val.User_id} </p>
+                    <p>Birthday: {val.date_of_birth} </p>
+                  </div>
+                );
+              })
+            }
+          </div>
+
           <p>* * *</p>
           <div className="text-end">
             <p>Update Your Password</p>
@@ -77,6 +106,7 @@ const AccountInfoPage = () => {
               <button onClick = {updateUserPassword} className="btn btn-outline-primary me-2">Update</button>
             </p>
           </div>
+          
           <p>* * *</p>
           <div className="text-end">
             <p>Delete Your Account [PERMANENT]</p>
