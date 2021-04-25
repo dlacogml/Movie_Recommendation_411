@@ -42,8 +42,14 @@ const BrowsePage = () => {
             </div>
           </header>
           <p>browse page</p>
+
+          <p>Search Movies</p>
+          <label>by keyword: </label>
+          <input type="text" name="Keyword"/>
         </div>
       </div>
+
+
   );
 };
 
