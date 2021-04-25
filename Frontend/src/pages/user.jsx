@@ -35,7 +35,32 @@ const AccountInfoPage = () => {
               <button type="button" className="btn btn-primary"><Link to="/SignUp">Sign-Up</Link></button>
             </div>
           </header>
-          <p>Account Info Page</p>
+          
+          <div className="container">
+          <p>Your Account Info</p>
+          
+          <div className="text-end">
+            <p>Update Your Password</p>
+            <label>Old Password</label>
+            <input type="text"/>
+            <label>New Password</label>
+            <input type="text"/>
+            <p>
+              <button type="button" className="btn btn-outline-primary me-2">Update</button>
+            </p>
+          </div>
+
+          <div className="text-end">
+            <p>Delete Your Account</p>
+            <label>Confirm Username</label>
+            <input type="text"/>
+            <label>Confirm Password</label>
+            <input type="text"/>
+            <p>
+              <button type="button" className="btn btn-outline-primary me-2">Delete</button>
+            </p>
+          </div>
+          </div>
         </div>
       </div>
   );
