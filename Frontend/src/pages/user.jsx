@@ -1,8 +1,34 @@
 /*users.jsx*/
-import React from "react";
+import React, {Component, useState} from "react";
 import {Link} from "react-router-dom";
-/* We simply can use an array and loop and print each user */
+import Axios from 'axios';
+
+
 const AccountInfoPage = () => {
+
+
+  const[UserId, setUserID]=useState('');
+  const[Password, setPassword]=useState('');
+  const[OldPassword, setOldPassword]=useState('');
+  const[NewPassword, setNewPassword]=useState('');
+
+
+  const updateUserPassword = () => {
+    Axios.put(`http://localhost:3002/api/updatePassword`, {
+      UserId : UserId,
+      OldPassword : OldPassword,
+      NewPassword : NewPassword
+    });
+  };
+
+  const deleteUserAccount = () => {
+    Axios.delete(`http://localhost:3002/api/delete/${UserId}`,
+    {data: {
+      UserId: UserId,
+      Password: Password
+    }})
+  };
+
   return (
     <div>
         <meta charSet="utf-8" />
@@ -41,23 +67,25 @@ const AccountInfoPage = () => {
           <p>* * *</p>
           <div className="text-end">
             <p>Update Your Password</p>
+            <label>Confirm UserId</label>
+            <input type="text" name="UserID" onChange={(e) => {setUserID(e.target.value)}}/>
             <label>Old Password</label>
-            <input type="text"/>
+            <input type="text" name="OldPassword" onChange={(e) => {setOldPassword(e.target.value)}}/>
             <label>New Password</label>
-            <input type="text"/>
+            <input type="text" name="NewPassword" onChange={(e) => {setNewPassword(e.target.value)}}/>
             <p>
-              <button type="button" className="btn btn-outline-primary me-2">Update</button>
+              <button onClick = {updateUserPassword} className="btn btn-outline-primary me-2">Update</button>
             </p>
           </div>
           <p>* * *</p>
           <div className="text-end">
             <p>Delete Your Account [PERMANENT]</p>
             <label>Confirm Username</label>
-            <input type="text"/>
+            <input type="text" name="UserID" onChange={(e) => {setUserID(e.target.value)}}/>
             <label>Confirm Password</label>
-            <input type="text"/>
+            <input type="text" name="Password" onChange={(e) => {setPassword(e.target.value)}}/>
             <p>
-              <button type="button" className="btn btn-outline-primary me-2">Delete</button>
+              <button onClick = {deleteUserAccount} className="btn btn-outline-primary me-2">Delete</button>
             </p>
           </div>
           </div>
