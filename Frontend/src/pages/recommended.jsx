@@ -61,7 +61,7 @@ function RecommendedPage () {
               <div className="container">2. Movies watched by other users who have similar watch histories as yourself.</div>
               <div className="container">3. Movies recommended based on your most watched genre.</div>
               <div className="container">
-
+          <br/>
           <button className="btn btn-outline-primary me-2" onClick = {getMoviesRecs}> Show Me! </button>
           {returnMovieRecList.map((val) => {
             return(
