@@ -5,6 +5,8 @@ import Axios from 'axios';
 
 //Functional Component 
 function WatchedPage () {
+  const USER_ID = sessionStorage.getItem('userID');
+
   /* Add new watched relation */
   const [movieIDWatchedMovie, setMovieIDWatchedMovie] = useState('');
   const [dateWatchedMovie, setDateWatchedMovie] = useState('');
@@ -14,11 +16,18 @@ function WatchedPage () {
   /* Get Movies watched by User*/
   const [returnMovieWatchList, setReturnMovieWatchList] = useState([]);
 
+  /* Search for Movie IDS by title list*/
+  const [keyword, setKeyword] = useState('');
+  const [returnMovieIDList, setReturnMovieIDList] = useState([]);
+
   /* Update a user's movie rating */
   const [newMovieRating, setNewMovieRating] = useState('');
 
   const getMoviesWatchedByUser = () => {
     Axios.get('http://localhost:3002/api/searchMoviesWatched', {
+      params: {
+        UserId: USER_ID
+      }
     }).then((response) => {
       setReturnMovieWatchList(response.data)
     })
@@ -27,7 +36,8 @@ function WatchedPage () {
   const updateMovieWatch = () => {
     Axios.put(`http://localhost:3002/api/updateReview`, {
       movieIDWatchedMovie: movieIDWatchedMovie,
-      newMovieRating: newMovieRating
+      newMovieRating: newMovieRating,
+      UserId: USER_ID
     });
     setNewMovieRating("")
   };
@@ -38,6 +48,7 @@ function WatchedPage () {
       dateWatchedMovie: dateWatchedMovie,
       timeWatchedMovie: timeWatchedMovie,
       ratingWatchedMovie: ratingWatchedMovie,
+      UserId: USER_ID
     }).then(() => {
       alert('success insert')
     });
@@ -48,7 +59,18 @@ function WatchedPage () {
     Axios.delete(`https://localhost:3002/api/delete/${movieIDWatchedMovie}`,
       {data: {
       movieIDWatchedMovie:movieIDWatchedMovie,
+      UserId: USER_ID
     }})
+  };
+
+  const getMovieIDbyTitle = () => {
+    Axios.get('http://localhost:3002/api/getMovieIDbyTitle', {
+      params: {
+        keyword:keyword
+      }
+    }).then((response) => {
+      setReturnMovieIDList(response.data)
+    })
   };
 
   return (
@@ -91,6 +113,25 @@ function WatchedPage () {
 
           <div className="container">
           <p>Your Movie Reviews</p>
+            <div>
+            <p>Find Movie ID</p>
+              <label>by Title</label>
+              <input type= "text" name = "keyword" onChange={(e) => {
+              setKeyword(e.target.value)
+              }}/>
+              <button className="btn btn-outline-primary me-2" onClick = {getMovieIDbyTitle}>Search</button>
+              <div>
+                 {returnMovieIDList.map((val) => {
+                    return(
+                      <div className = "card">
+                      <p> Movie Title: {val.title} </p>
+                      <p> Movie ID: {val.ID} </p>
+                      </div>
+                    );
+                  })}
+          </div>
+            </div>
+            <br/>
             <div>
             <p>Watched a new movie?</p>
             <label>Movie ID </label>
