@@ -109,7 +109,7 @@ function WatchedPage () {
               <input type= "text" name = "ratingWatchedMovie" onChange={(e) => {
               setRatingWatchedMovie(e.target.value)
               }}/><br/>
-              <button className="btn btn-outline-primary me-2">Submit Review</button>
+              <button className="btn btn-outline-primary me-2" onClick = {submitNewWatchMovie}>Submit Review</button>
             </div>
             <br/>
             <div>
@@ -135,9 +135,7 @@ function WatchedPage () {
             </div>
 
               
-            
-              
-            
+          
           </div>
 
           <br/>
