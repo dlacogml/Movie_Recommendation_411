@@ -23,10 +23,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/api/fetchAccountInfo", (request, result) => {
+    // console.log(request.body);
     const userID = request.query.UserId;
     // const password = request.query.password;
 
-    console.log("came here");
+    console.log(userID);
     const sql = "SELECT * FROM User WHERE User_id = ?;";
 
     db.query(sql, [userID], (err, results, fields) => {
@@ -68,7 +69,6 @@ app.post('/api/insertNewUser', (require, response) => {
     const newPassword = require.body.newPassword;
     const newBirthday = require.body.newBirthday;
     
-    
     var sql = "INSERT INTO User (User_id, date_of_birth, Password) VALUES (?, ?, ?);";
     
     db.query(sql, [newUserId, newBirthday, newPassword], function (err, result) {
@@ -80,8 +80,56 @@ app.post('/api/insertNewUser', (require, response) => {
 })
 
 
+app.get("/api/searchMoviesByTitle", (request, result) => {
+    console.log("Searching for Movies");
+    const keyword = request.query.keyword;
+    
+    const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+    db.query(sqlUpdate, [keyword], (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+})
+
+app.get("/api/getMovieIDbyTitle", (request, result) => {
+    console.log("Searching for Movies");
+    const keyword = request.query.keyword;
+    
+    const sqlUpdate = "SELECT title, ID FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+    db.query(sqlUpdate, [keyword], (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+})
+
+app.get("/api/getMovieRecs", (request, result) => {
+  const userid = request.query.UserId;
+  const sqlRead = "call movie_suggested(?);";
+  console.log(userid);
+  db.query(sqlRead, [userid], (err, results, fields) => {
+    if (err) throw err;
+    result.send(results);
+    console.log(results);
+  });
+})
+
+app.get("/api/BrowseFilterStreaming", (request, result) => {
+    console.log("Searching for Movies");
+    const keyword = request.query.movieSearchGenreName;
+    
+    const sqlUpdate = "SELECT title, rating, genre FROM Movies JOIN Have_movie USING (ID) JOIN Streaming_Service USING (Service_name) JOIN subscribed ON (Name=Service_name) WHERE User_id = ? and title LIKE CONCAT('%' , ? , '%') LIMIT 20;";
+    db.query(sqlUpdate, [keyword], (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+})
+
+
 app.get("/api/searchMovieByGenre", (request, result) => {
-    const movieSearchGenreName = request.query.movieSearchGenreName;
+    const movieSearchGenreName = request.query.keyword;
     // console.log(request)
     // console.log(movieSearchGenreName);
     const sqlUpdate = "SELECT title, rating, genre FROM Movies JOIN (SELECT ID FROM belongs_to_Movie WHERE genre_name = ?) as sub1 USING (ID) ORDER BY rating desc LIMIT 10;";
@@ -124,6 +172,40 @@ app.get("/api/topRatedMovieByGenre", (request, result) => {
     });
 })
 
+  app.get(`/api/searchMoviesWatched`, (request, result) => {
+    const UserId = request.query.UserId;
+    const sqlRead = "SELECT m.title as title, w.date as date, w.rating as rating FROM watched_movie w JOIN Movies m USING (ID) WHERE w.User_id = ? ORDER BY date desc LIMIT 20;";
+    db.query(sqlRead, [UserId], (err, results, fields) => {
+      if (err) throw err;
+      result.send(results);
+    });
+  })
+
+  app.put("/api/updateReview", (require, response) => {
+    const movieIDWatchedMovie = require.body.movieIDWatchedMovie;
+    const userIDWatchedMovie = require.body.UserId;
+    const newMovieRating = require.body.newMovieRating;
+    const sqlUpdate = "UPDATE watched_movie SET rating = ? WHERE ID = ? AND User_id = ?;";
+    db.query(sqlUpdate, [newMovieRating, movieIDWatchedMovie, userIDWatchedMovie], (err, result) => {
+      if (err) throw err;
+      response.send("Update successful");
+      console.log(err);
+    });
+  })
+
+  app.delete("/api/delete", (require, response) => {
+    const movieIDWatchedMovie = require.body.movieIDWatchedMovie;
+    const userIDWatchedMovie = require.body.UserId;
+  
+    console.log("deleting review");
+
+    const sqlDelete = "DELETE FROM watched_movie WHERE ID = ? AND User_id = ?;";
+    db.query(sqlDelete, [movieIDWatchedMovie, userIDWatchedMovie], (err, result) => {
+      console.log(result);
+      response.send("deleted a row from watched_movie");
+    })
+  });
+
 app.post('/api/insertSubscribed', (require, response) => {
     console.log("before insert attempt");
     const Name = require.body.Name;
@@ -142,7 +224,7 @@ app.post('/api/insertSubscribed', (require, response) => {
 
 app.post('/api/insertNewWatchMovie', (require, response) => {
     const movieIDWatchedMovie = require.body.movieIDWatchedMovie;
-    const userIDWatchedMovie = require.body.userIDWatchedMovie;
+    const userIDWatchedMovie = require.body.UserId;
     const dateWatchedMovie = require.body.dateWatchedMovie;
     const timeWatchedMovie = require.body.timeWatchedMovie;
     const ratingWatchedMovie = require.body.ratingWatchedMovie;
@@ -154,21 +236,6 @@ app.post('/api/insertNewWatchMovie', (require, response) => {
         console.log("test 1 completed");
       });
 })
-
-app.delete("/api/delete/", (require, response) => {
-    const movieIDWatchedMovie = require.body.movieIDWatchedMovie;
-    const userIDWatchedMovie = require.body.userIDWatchedMovie;
-  
-    console.log(movieIDWatchedMovie);
-    console.log(userIDWatchedMovie);
-
-    const sqlDelete = "DELETE FROM watched_movie WHERE ID = ? AND User_id = ?;";
-    db.query(sqlDelete, [movieIDWatchedMovie, userIDWatchedMovie], (err, result) => {
-      console.log(result);
-      response.send("deleted a row from watched_movie");
-    })
-  });
-
 
   app.get(`/api/searchMovieTitles`, (request, result) => {
     const movieSearchNameKeyword = request.query.movieSearchNameKeyword;
@@ -194,18 +261,6 @@ app.delete("/api/delete/", (require, response) => {
       if (err) throw err;
       result.send(results);
     })
-  })
-  
-  app.put("/api/updateReview", (require, response) => {
-    const movieIDWatchedMovie = require.body.movieIDWatchedMovie;
-    const userIDWatchedMovie = require.body.userIDWatchedMovie;
-    const newMovieRating = require.body.newMovieRating;
-    const sqlUpdate = "UPDATE watched_movie SET rating = ? WHERE ID = ? AND User_id = ?;";
-    db.query(sqlUpdate, [newMovieRating, movieIDWatchedMovie, userIDWatchedMovie], (err, result) => {
-      if (err) throw err;
-      response.send("Update successful");
-      console.log(err);
-    });
   })
 
 app.listen(3002, () => {

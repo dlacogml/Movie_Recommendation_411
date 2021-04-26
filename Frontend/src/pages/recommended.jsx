@@ -9,11 +9,15 @@ function RecommendedPage () {
 
   /* Get Movie Recommendations by calling stored procedure*/
   const [returnMovieRecList, setReturnMovieRecList] = useState([]);
+  const USER_ID = sessionStorage.getItem('userID');
 
   const getMoviesRecs = () => {
     Axios.get('http://localhost:3002/api/getMovieRecs', {
+      params: {
+          UserId:USER_ID
+        }
     }).then((response) => {
-      setReturnMovieRecList(response.data)
+      setReturnMovieRecList(response.data[0])
     })
   };
 

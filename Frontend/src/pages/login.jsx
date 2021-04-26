@@ -9,6 +9,7 @@ const LoginPage = () => {
 
   // sessionStorage.setItem('userID', userID)
   const [userID, setUserID] = useState('');
+  sessionStorage.setItem('userID', userID)
     // const USER_ID = sessionStorage.getItem('userID');
   const[Password, setPassword]=useState('');
   const[returnUserAccountInfo, setReturnUserAccountInfo]=useState([]);
@@ -48,8 +49,8 @@ const LoginPage = () => {
                 <input type="checkbox" defaultValue="remember-me" /> Remember me
               </label>
             </div>
-            <button className="w-100 btn btn-lg btn-primary" type = "submit">Sign In</button>     
-            {
+            <button className="w-100 btn btn-lg btn-primary" type = "submit"><Link to="/AccountInfo">Sign In</Link></button>     
+            {/* {
               returnUserAccountInfo.map((val) => {
                 if(Password == val.Password) {
                   sessionStorage.setItem('userID', userID)
@@ -58,7 +59,7 @@ const LoginPage = () => {
                   return (<text> Login not successful</text>);
                 }
               })
-            }
+            } */}
           </form>
         </main>
       </div>

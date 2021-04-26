@@ -56,7 +56,7 @@ function WatchedPage () {
   };
 
   const deleteWatchMovie = () => {
-    Axios.delete(`https://localhost:3002/api/delete/${movieIDWatchedMovie}`,
+    Axios.delete(`http://localhost:3002/api/delete/`,
       {data: {
       movieIDWatchedMovie:movieIDWatchedMovie,
       UserId: USER_ID
