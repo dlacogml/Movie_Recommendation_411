@@ -1,9 +1,56 @@
 /*index.jsx*/
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {Component, useState} from "react";
+import {Link} from "react-router-dom";
+import Axios from 'axios';
 
 //Functional Component 
-const WatchedPage = () => {
+function WatchedPage () {
+  /* Add new watched relation */
+  const [movieIDWatchedMovie, setMovieIDWatchedMovie] = useState('');
+  const [dateWatchedMovie, setDateWatchedMovie] = useState('');
+  const [timeWatchedMovie, setTimeWatchedMovie] = useState('');
+  const [ratingWatchedMovie, setRatingWatchedMovie] = useState('');
+
+  /* Get Movies watched by User*/
+  const [returnMovieWatchList, setReturnMovieWatchList] = useState([]);
+
+  /* Update a user's movie rating */
+  const [newMovieRating, setNewMovieRating] = useState('');
+
+  const getMoviesWatchedByUser = () => {
+    Axios.get('http://localhost:3002/api/searchMoviesWatched', {
+    }).then((response) => {
+      setReturnMovieWatchList(response.data)
+    })
+  };
+
+  const updateMovieWatch = () => {
+    Axios.put(`http://localhost:3002/api/updateReview`, {
+      movieIDWatchedMovie: movieIDWatchedMovie,
+      newMovieRating: newMovieRating
+    });
+    setNewMovieRating("")
+  };
+
+  const submitNewWatchMovie = () => {
+    Axios.post(`http://localhost:3002/api/insertNewWatchMovie`, {
+      movieIDWatchedMovie: movieIDWatchedMovie,
+      dateWatchedMovie: dateWatchedMovie,
+      timeWatchedMovie: timeWatchedMovie,
+      ratingWatchedMovie: ratingWatchedMovie,
+    }).then(() => {
+      alert('success insert')
+    });
+
+  };
+
+  const deleteWatchMovie = () => {
+    Axios.delete(`https://localhost:3002/api/delete/${movieIDWatchedMovie}`,
+      {data: {
+      movieIDWatchedMovie:movieIDWatchedMovie,
+    }})
+  };
+
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
@@ -44,27 +91,68 @@ const WatchedPage = () => {
 
           <div className="container">
           <p>Your Movie Reviews</p>
-            <label>Movie Name</label>
-            <input type="text"/>
-            <label>Your Rating [0-10]</label>
-            <input type="text"/>
-            <label>Watched Date</label>
-            <input type="text"/>
-            <label>Watched Time</label>
-            <input type="text"/>
-            <p>
-              <button type="button" className="btn btn-outline-primary me-2">Create</button>
-              <button type="button" className="btn btn-outline-primary me-2">Update</button>
-              <button type="button" className="btn btn-outline-primary me-2">Delete</button>
-            </p>
+            <div>
+            <p>Watched a new movie?</p>
+            <label>Movie ID </label>
+            <input type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
+               setMovieIDWatchedMovie(e.target.value)
+               }}/><br/>
+            <label>Date Watched (YYYY-M-D) </label>
+              <input type= "text" name = "dateWatchedMovie" onChange={(e) => {
+              setDateWatchedMovie(e.target.value)
+              }}/><br/>
+            <label>Time Watched (0-24H:M) </label>
+              <input type= "text" name = "timeWatchedMovie" onChange={(e) => {
+              setTimeWatchedMovie(e.target.value)
+              }}/><br/>
+            <label>Rating (0-10) </label>
+              <input type= "text" name = "ratingWatchedMovie" onChange={(e) => {
+              setRatingWatchedMovie(e.target.value)
+              }}/><br/>
+              <button className="btn btn-outline-primary me-2">Submit Review</button>
+            </div>
+            <br/>
+            <div>
+            <p>Update a Movie Rating</p>
+            <label>Movie ID </label>
+            <input type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
+               setMovieIDWatchedMovie(e.target.value)
+               }}/><br/>
+            <label>UPDATED Rating (0-10): </label>
+              <input type= "text" name = "newMovieRating" onChange={(e) => {
+              setNewMovieRating(e.target.value)
+              }}/><br/>
+              <button className="btn btn-outline-primary me-2" onClick = {updateMovieWatch}> Update </button>
+            </div>
+              <br/>
+            <div>
+            <p>Delete Review</p>
+            <label>Movie ID </label>
+            <input type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
+               setMovieIDWatchedMovie(e.target.value)
+               }}/><br/>
+              <button className="btn btn-outline-primary me-2" onClick = {deleteWatchMovie}>Delete</button>
+            </div>
+
+              
+            
               
             
           </div>
 
-          <p></p>
+          <br/>
 
           <div className="container">
           <p>Your Watch History</p>
+          <button className="btn btn-outline-primary me-2" onClick = {getMoviesWatchedByUser}> Show Me! </button>
+          {returnMovieWatchList.map((val) => {
+            return(
+              <div className = "card">
+              <p> Movie Name: {val.title} </p>
+              <p> Your Rating: {val.rating} </p>
+              </div>
+            );
+          })}
           </div>
               
         </div>
