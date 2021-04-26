@@ -9,6 +9,7 @@ import Axios from 'axios';
 
     const [keyword, setKeyword] = useState('');
     const [returnMovieListTitle, setReturnMovieListTitle] = useState([]);
+    const [returnMovieList, setReturnMovieList] = useState([]);
 
     const getMoviesByTitle = () => {
       Axios.get('http://localhost:3002/api/searchMoviesByTitle', {
