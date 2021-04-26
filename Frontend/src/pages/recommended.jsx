@@ -1,9 +1,22 @@
 /*index.jsx*/
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {Component, useState} from "react";
+import {Link} from "react-router-dom";
+import Axios from 'axios';
+
 
 //Functional Component 
-const RecommendedPage = () => {
+function RecommendedPage () {
+
+  /* Get Movie Recommendations by calling stored procedure*/
+  const [returnMovieRecList, setReturnMovieRecList] = useState([]);
+
+  const getMoviesRecs = () => {
+    Axios.get('http://localhost:3002/api/getMovieRecs', {
+    }).then((response) => {
+      setReturnMovieRecList(response.data)
+    })
+  };
+
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
@@ -47,7 +60,19 @@ const RecommendedPage = () => {
               <div className="container">1. Movies with actors who have acted in movies that you have previously watched.</div> 
               <div className="container">2. Movies watched by other users who have similar watch histories as yourself.</div>
               <div className="container">3. Movies recommended based on your most watched genre.</div>
-      
+              <div className="container">
+
+          <button className="btn btn-outline-primary me-2" onClick = {getMoviesRecs}> Show Me! </button>
+          {returnMovieRecList.map((val) => {
+            return(
+              <div className = "card">
+              <p> Movie Name: {val.title} </p>
+              <p> Movie Rating: {val.rating} </p>
+              <p> Genre: {val.genre} </p>
+              </div>
+            );
+          })}
+          </div>
         </div>
       </div>
   );
