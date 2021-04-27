@@ -10,10 +10,13 @@ import Axios from 'axios';
     const [keyword, setKeyword] = useState('');
     const [returnMovieListTitle, setReturnMovieListTitle] = useState([]);
     const [returnMovieList, setReturnMovieList] = useState([]);
-
+    const USER_ID = sessionStorage.getItem('userID');
+    const flag = false;
     const getMoviesByTitle = () => {
       Axios.get('http://localhost:3002/api/searchMoviesByTitle', {
         params: {
+          flag:flag,
+          user_id : USER_ID,
           keyword:keyword
         }
       }).then((response) => {
@@ -24,13 +27,17 @@ import Axios from 'axios';
     const getMoviesByGenre = () => {
       Axios.get('http://localhost:3002/api/searchMoviesByGenre', {
         params: {
+          flag:flag,
+          user_id : USER_ID,
           keyword:keyword
         }
       }).then((response) => {
         setReturnMovieList(response.data)
       })
     };
-
+    const getChckeboxValue = (event)=> {
+        const flag = event.target.value;
+    };
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
@@ -72,11 +79,11 @@ import Axios from 'axios';
           <p>Search Movies</p>
           <div className="checkbox mb-3">
               <label>
-                <input type="checkbox" defaultValue="filter-on-streaming" /> Only show movies that are on streaming services that you are subscribed to
+              <input onClick={getChckeboxValue.bind(this)} type="checkbox" value="Text" /> Only show movies that are on streaming services that you are subscribed to
               </label>
             </div>
           <br />
-          <label>by Title </label>
+          <label>by Title     </label>
           <input type= "text" name = "keyword" onChange={(e) => {
             setKeyword(e.target.value)
             }}/>
@@ -94,6 +101,7 @@ import Axios from 'axios';
 
           <br />
           <label>by Genre </label>
+        
           <input type= "text" name = "keyword" onChange={(e) => {
             setKeyword(e.target.value)
             }}/>

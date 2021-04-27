@@ -83,7 +83,10 @@ app.post('/api/insertNewUser', (require, response) => {
 app.get("/api/searchMoviesByTitle", (request, result) => {
     console.log("Searching for Movies");
     const keyword = request.query.keyword;
-    
+    const flag = request.query.flag;
+    const user_id = request.query.user_id;
+    console.log(flag);
+    console.log(user_id);
     const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
     db.query(sqlUpdate, [keyword], (err, results, fields) => {
         console.log(fields);
