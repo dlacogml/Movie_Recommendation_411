@@ -48,7 +48,7 @@ function RecommendedPage () {
             </a>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary"><Link to="/">Home</Link></a></li>
-              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Browse</Link></a></li>
+              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Search</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Recommended">Recommended</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Watched">Watched</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/AccountInfo">Account Info</Link></a></li>
@@ -67,13 +67,18 @@ function RecommendedPage () {
               <div className="container">
           <br/>
           <button className="btn btn-outline-primary me-2" onClick = {getMoviesRecs}> Show Me! </button>
+          <div className="container"></div>
           {returnMovieRecList.map((val) => {
             return(
-              <div className = "card">
+              <grid className = "card">
+                  <img className="photo"
+                    src='https://m.media-amazon.com/images/S/sash/i-t32yvKixg10fG.png'
+                    alt="new"
+                    />
               <p> Movie Name: {val.title} </p>
               <p> Movie Rating: {val.rating} </p>
               <p> Genre: {val.genre} </p>
-              </div>
+              </grid>
             );
           })}
           </div>

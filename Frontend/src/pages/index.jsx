@@ -1,15 +1,22 @@
 /*index.jsx*/
-import React from "react";
+import React, { useState }from "react";
 import { Link } from "react-router-dom";
-
+import Axios from 'axios';
 //Functional Component 
 const MainPage = () => {
+    const [mostPop, setMostPop] = useState([]);
+    const getMostPop = () => {
+        Axios.get('http://localhost:3002/api/getMostPop').then((response) => {
+            setMostPop(response.data)
+        })
+      };
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
     //   <small>Main Page</small>
     //   <button><Link to="/user">Show List of Users</Link></button>
     // </div>
+    
     <div>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,7 +38,7 @@ const MainPage = () => {
             </a>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary"><Link to="/">Home</Link></a></li>
-              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Browse</Link></a></li>
+              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Search</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark">Recommended</a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Watched">Watched</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/AccountInfo">Account Info</Link></a></li>
@@ -42,7 +49,26 @@ const MainPage = () => {
             </div>
           </header>
         </div>
-      </div>
+        <h2>Most popular movies</h2>
+        {getMostPop()}
+          <div className="container"></div>
+          {mostPop.map((val) => {
+            return(
+              <grid className = "card">
+                  <img className="photo"
+                    src='https://m.media-amazon.com/images/S/sash/i-t32yvKixg10fG.png'
+                    alt="new"
+                    />
+              <p> Movie Name: {val.title} </p>
+              <p> Movie Rating: {val.rating} </p>
+              <p> Genre: {val.genre} </p>
+              </grid>
+            );
+          })}
+          </div>
+
+
+
   );
 };
 

@@ -65,7 +65,7 @@ function AccountInfoPage() {
             </a>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary"><Link to="/">Home</Link></a></li>
-              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Browse</Link></a></li>
+              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Search</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Recommended">Recommended</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Watched">Watched</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/AccountInfo">Account Info</Link></a></li>
@@ -97,12 +97,18 @@ function AccountInfoPage() {
           <div className="text-end">
             <p>Update Your Password</p>
             <label>Confirm UserId</label>
-            <input type="text" name="UserID" onChange={(e) => {setUserID(e.target.value)}}/>
+            <div className="container"></div>
+            <input className = "text" type="text" name="UserID" onChange={(e) => {setUserID(e.target.value)}}/>
+            <div className="container"></div>
             <label>Old Password</label>
-            <input type="text" name="OldPassword" onChange={(e) => {setOldPassword(e.target.value)}}/>
+            <div className="container"></div>
+            <input className = "text" type="text" name="OldPassword" onChange={(e) => {setOldPassword(e.target.value)}}/>
+            <div className="container"></div>
             <label>New Password</label>
-            <input type="text" name="NewPassword" onChange={(e) => {setNewPassword(e.target.value)}}/>
+            <div className="container"></div>
+            <input className = "text" type="text" name="NewPassword" onChange={(e) => {setNewPassword(e.target.value)}}/>
             <p>
+            <div className="container"></div>
               <button onClick = {updateUserPassword} className="btn btn-outline-primary me-2">Update</button>
             </p>
           </div>
@@ -111,9 +117,12 @@ function AccountInfoPage() {
           <div className="text-end">
             <p>Delete Your Account [PERMANENT]</p>
             <label>Confirm Username</label>
-            <input type="text" name="UserID" onChange={(e) => {setUserID(e.target.value)}}/>
+            <div className="container"></div>
+            <input className = "text" type="text" name="UserID" onChange={(e) => {setUserID(e.target.value)}}/>
+            <div className="container"></div>
             <label>Confirm Password</label>
-            <input type="text" name="Password" onChange={(e) => {setPassword(e.target.value)}}/>
+            <div className="container"></div>
+            <input className = "text" type="text" name="Password" onChange={(e) => {setPassword(e.target.value)}}/>
             <p>
               <button onClick = {deleteUserAccount} className="btn btn-outline-primary me-2">Delete</button>
             </p>

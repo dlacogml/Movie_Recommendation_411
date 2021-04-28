@@ -11,11 +11,11 @@ import Axios from 'axios';
     const [returnMovieListTitle, setReturnMovieListTitle] = useState([]);
     const [returnMovieList, setReturnMovieList] = useState([]);
     const USER_ID = sessionStorage.getItem('userID');
-    const flag = false;
+    var flag = false;
     const getMoviesByTitle = () => {
       Axios.get('http://localhost:3002/api/searchMoviesByTitle', {
         params: {
-          flag:flag,
+          flag:document.getElementById('checkbox').checked,
           user_id : USER_ID,
           keyword:keyword
         }
@@ -27,7 +27,7 @@ import Axios from 'axios';
     const getMoviesByGenre = () => {
       Axios.get('http://localhost:3002/api/searchMoviesByGenre', {
         params: {
-          flag:flag,
+          flag:document.getElementById('checkbox').checked,
           user_id : USER_ID,
           keyword:keyword
         }
@@ -35,8 +35,13 @@ import Axios from 'axios';
         setReturnMovieList(response.data)
       })
     };
-    const getChckeboxValue = (event)=> {
-        const flag = event.target.value;
+    const getCheckeboxValue = ()=> {
+        if (!document.getElementById('checkbox')){
+
+           flag = false; 
+        }else{
+            flag = !flag;
+        }
     };
   return (
     // <div>
@@ -65,7 +70,7 @@ import Axios from 'axios';
             </a>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary"><Link to="/">Home</Link></a></li>
-              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Browse</Link></a></li>
+              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Search</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Recommended">Recommended</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Watched">Watched</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/AccountInfo">Account Info</Link></a></li>
@@ -79,22 +84,26 @@ import Axios from 'axios';
           <p>Search Movies</p>
           <div className="checkbox mb-3">
               <label>
-              <input onClick={getChckeboxValue.bind(this)} type="checkbox" value="Text" /> Only show movies that are on streaming services that you are subscribed to
+              <input  type="checkbox" id = "checkbox" onClick={getCheckeboxValue()}/> Only show movies that are on streaming services that you are subscribed to
               </label>
             </div>
           <br />
           <label>by Title     </label>
-          <input type= "text" name = "keyword" onChange={(e) => {
+          <input className = "text "type= "text" name = "keyword" onChange={(e) => {
             setKeyword(e.target.value)
             }}/>
-          <button onClick = {getMoviesByTitle}>Search</button>
+          <button className="btn btn-outline-primary me-2" type = 'submit' onClick = {getMoviesByTitle}>Search</button>
           <div>
             {returnMovieListTitle.map((val) => {
               return(
-                <div className = "card">
-                <p> Movie Title: {val.title} </p>
-                <p> Movie Rating: {val.rating} </p>
-                </div>
+                <grid className = "card">
+                  <img className="photo"
+                    src='https://m.media-amazon.com/images/S/sash/i-t32yvKixg10fG.png'
+                    alt="new"
+                    />
+              <p> Movie Name: {val.title} </p>
+              <p> Movie Rating: {val.rating} </p>
+              </grid>
               );
             })}
           </div>
@@ -102,17 +111,21 @@ import Axios from 'axios';
           <br />
           <label>by Genre </label>
         
-          <input type= "text" name = "keyword" onChange={(e) => {
+          <input className = "text" type= "text" name = "keyword" onChange={(e) => {
             setKeyword(e.target.value)
             }}/>
-          <button onClick = {getMoviesByGenre}>Search</button>
+          <button className="btn btn-outline-primary me-2" onClick = {getMoviesByGenre}>Search</button>
           <div>
             {returnMovieList.map((val) => {
               return(
-                <div className = "card">
-                <p> Movie Title: {val.title} </p>
-                <p> Movie Rating: {val.rating} </p>
-                </div>
+                <grid className = "card">
+                  <img className="photo"
+                    src='https://m.media-amazon.com/images/S/sash/i-t32yvKixg10fG.png'
+                    alt="new"
+                    />
+              <p> Movie Name: {val.title} </p>
+              <p> Movie Rating: {val.rating} </p>
+              </grid>
               );
             })}
           </div>

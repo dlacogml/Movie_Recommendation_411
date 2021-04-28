@@ -100,7 +100,7 @@ function WatchedPage () {
             </a>
             <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
               <li><a href="#" className="nav-link px-2 link-secondary"><Link to="/">Home</Link></a></li>
-              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Browse</Link></a></li>
+              <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Browse">Search</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Recommended">Recommended</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/Watched">Watched</Link></a></li>
               <li><a href="#" className="nav-link px-2 link-dark"><Link to="/AccountInfo">Account Info</Link></a></li>
@@ -116,9 +116,10 @@ function WatchedPage () {
             <div>
             <p>Find Movie ID</p>
               <label>by Title</label>
-              <input type= "text" name = "keyword" onChange={(e) => {
+              <input className = "text" type= "text" name = "keyword" onChange={(e) => {
               setKeyword(e.target.value)
               }}/>
+              <div className="container"></div>
               <button className="btn btn-outline-primary me-2" onClick = {getMovieIDbyTitle}>Search</button>
               <div>
                  {returnMovieIDList.map((val) => {
@@ -135,19 +136,19 @@ function WatchedPage () {
             <div>
             <p>Watched a new movie?</p>
             <label>Movie ID </label>
-            <input type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
+            <input className = "text" type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
                setMovieIDWatchedMovie(e.target.value)
                }}/><br/>
             <label>Date Watched (YYYY-M-D) </label>
-              <input type= "text" name = "dateWatchedMovie" onChange={(e) => {
+              <input className = "text" type= "text" name = "dateWatchedMovie" onChange={(e) => {
               setDateWatchedMovie(e.target.value)
               }}/><br/>
             <label>Time Watched (0-24H:M) </label>
-              <input type= "text" name = "timeWatchedMovie" onChange={(e) => {
+              <input className = "text" type= "text" name = "timeWatchedMovie" onChange={(e) => {
               setTimeWatchedMovie(e.target.value)
               }}/><br/>
             <label>Rating (0-10) </label>
-              <input type= "text" name = "ratingWatchedMovie" onChange={(e) => {
+              <input className = "text" type= "text" name = "ratingWatchedMovie" onChange={(e) => {
               setRatingWatchedMovie(e.target.value)
               }}/><br/>
               <button className="btn btn-outline-primary me-2" onClick = {submitNewWatchMovie}>Submit Review</button>
@@ -156,11 +157,11 @@ function WatchedPage () {
             <div>
             <p>Update a Movie Rating</p>
             <label>Movie ID </label>
-            <input type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
+            <input className = "text" type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
                setMovieIDWatchedMovie(e.target.value)
                }}/><br/>
             <label>UPDATED Rating (0-10): </label>
-              <input type= "text" name = "newMovieRating" onChange={(e) => {
+              <input className = "text" type= "text" name = "newMovieRating" onChange={(e) => {
               setNewMovieRating(e.target.value)
               }}/><br/>
               <button className="btn btn-outline-primary me-2" onClick = {updateMovieWatch}> Update </button>
@@ -169,7 +170,7 @@ function WatchedPage () {
             <div>
             <p>Delete Review</p>
             <label>Movie ID </label>
-            <input type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
+            <input className = "text" type= "text" name = "movieIDWatchedMovie" onChange={(e) => {
                setMovieIDWatchedMovie(e.target.value)
                }}/><br/>
               <button className="btn btn-outline-primary me-2" onClick = {deleteWatchMovie}>Delete</button>
@@ -186,10 +187,14 @@ function WatchedPage () {
           <button className="btn btn-outline-primary me-2" onClick = {getMoviesWatchedByUser}> Show Me! </button>
           {returnMovieWatchList.map((val) => {
             return(
-              <div className = "card">
-              <p> Movie Name: {val.title} </p>
-              <p> Your Rating: {val.rating} </p>
-              </div>
+                <grid className = "card">
+                <img className="photo"
+                  src='https://m.media-amazon.com/images/S/sash/i-t32yvKixg10fG.png'
+                  alt="new"
+                  />
+            <p> Movie Name: {val.title} </p>
+            <p> Movie Rating: {val.rating} </p>
+            </grid>
             );
           })}
           </div>

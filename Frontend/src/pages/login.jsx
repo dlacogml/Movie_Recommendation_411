@@ -2,7 +2,7 @@
 // import React from "react";
 import React, {Component, useState, useEffect} from "react";
 import Axios from 'axios';
-import { Link, BrowserRouter, Route} from "react-router-dom";
+import { Link, BrowserRouter, Route, useHistory} from "react-router-dom";
 import AccountInfoPage from "./user"; ///< index.jsx will be automatically imported 
 
 const LoginPage = () => {
@@ -12,7 +12,10 @@ const LoginPage = () => {
   sessionStorage.setItem('userID', userID)
     // const USER_ID = sessionStorage.getItem('userID');
   const[Password, setPassword]=useState('');
+//   Password = '';
   const[returnUserAccountInfo, setReturnUserAccountInfo]=useState([]);
+  var element = null;
+  const history = useHistory();
 
   const getAccountInfo = () => {
     Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
@@ -24,7 +27,26 @@ const LoginPage = () => {
       setReturnUserAccountInfo(response.data)
     })
   };
- 
+  const clicked = (event) =>{
+      console.log(userID);
+    getAccountInfo(userID);
+    // console.log(returnUserAccountInfo);
+    // console.log(returnUserAccountInfo[0].Password);
+    // if(returnUserAccountInfo.length == 0){
+    //     console.log('wtf');
+    //     return null;
+    // }
+    if(returnUserAccountInfo.length == 0 || Password != returnUserAccountInfo[0].Password){
+        // console.log('here')
+        alert('Incorrect username or password, please try again')
+        return null;
+    }
+    if(Password == returnUserAccountInfo[0].Password){
+        console.log('here');
+        sessionStorage.setItem('userID', userID);
+        history.push(event.target.value);
+    }
+  };
 
   return (
     <div>
@@ -49,17 +71,7 @@ const LoginPage = () => {
                 <input type="checkbox" defaultValue="remember-me" /> Remember me
               </label>
             </div>
-            <button className="w-100 btn btn-lg btn-primary" type = "submit"><Link to="/AccountInfo">Sign In</Link></button>     
-            {/* {
-              returnUserAccountInfo.map((val) => {
-                if(Password == val.Password) {
-                  sessionStorage.setItem('userID', userID)
-                  return (<BrowserRouter><Route path="/AccountInfo" component={AccountInfoPage}></Route> </BrowserRouter>);
-                } else {
-                  return (<text> Login not successful</text>);
-                }
-              })
-            } */}
+            <button className="w-100 btn btn-lg btn-primary" type = "button" onClick = {clicked}>Sign In</button>     
           </form>
         </main>
       </div>

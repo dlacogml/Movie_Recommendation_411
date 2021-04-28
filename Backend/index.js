@@ -14,7 +14,7 @@ var db = mysql.createConnection({
 
 db.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
+    // console.log("Connected!");
   });
 
 
@@ -25,7 +25,7 @@ app.use(express.json());
 app.get("/api/fetchAccountInfo", (request, result) => {
     // console.log(request.body);
     const userID = request.query.UserId;
-    // const password = request.query.password;
+    const password = request.query.password;
 
     console.log(userID);
     const sql = "SELECT * FROM User WHERE User_id = ?;";
@@ -34,7 +34,7 @@ app.get("/api/fetchAccountInfo", (request, result) => {
         console.log(results);
         if (err) throw err
         result.send(results);
-        console.log("reached inside?");      
+        // console.log("reached inside?");      
     });
 })
 
@@ -79,6 +79,17 @@ app.post('/api/insertNewUser', (require, response) => {
       });
 })
 
+app.get("/api/getMostPop", (request, result) => {
+    console.log("Searching for Movies");
+    const sqlUpdate = "SELECT title, rating, genre FROM Movies ORDER BY rating desc LIMIT 20;";
+    db.query(sqlUpdate, (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+})
+
+
 
 app.get("/api/searchMoviesByTitle", (request, result) => {
     console.log("Searching for Movies");
@@ -87,12 +98,46 @@ app.get("/api/searchMoviesByTitle", (request, result) => {
     const user_id = request.query.user_id;
     console.log(flag);
     console.log(user_id);
+    if(flag){
+        const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+        db.query(sqlUpdate, [keyword,user_id], (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+    }else{
     const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
     db.query(sqlUpdate, [keyword], (err, results, fields) => {
         console.log(fields);
         if (err) throw err
         result.send(results);  
     });
+}
+})
+
+
+app.get("/api/searchMoviesByGenre", (request, result) => {
+    console.log("Searching for Movies");
+    const keyword = request.query.keyword;
+    const flag = request.query.flag;
+    const user_id = request.query.user_id;
+    console.log(flag);
+    console.log(user_id);
+    if(flag){
+        const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+        db.query(sqlUpdate, [keyword,user_id], (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+    }else{
+    const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE genre LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+    db.query(sqlUpdate, [keyword], (err, results, fields) => {
+        console.log(fields);
+        if (err) throw err
+        result.send(results);  
+    });
+}
 })
 
 app.get("/api/getMovieIDbyTitle", (request, result) => {
