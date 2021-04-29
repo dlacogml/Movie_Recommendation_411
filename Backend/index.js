@@ -369,8 +369,8 @@ app.post('/api/insertNewWatchMovie', (require, response) => {
     })
   })
 
-app.listen(8080, () => {
-    console.log("running on port 3002");
+app.listen(8080,'0.0.0.0', () => {
+    console.log("Started listening PLEASE");
 })
 
 //node index.js
