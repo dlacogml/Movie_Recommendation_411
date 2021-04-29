@@ -20,7 +20,7 @@ function AccountInfoPage() {
   const[returnUserAccountSubscribed, setReturnUserAccountSubscribed]=useState([]);
 
   const getAccountInfo = () => {
-    Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
+    Axios.get(`https://cs411-teamteam.uc.r.appspot.com/api/fetchAccountInfo`,
     {
       params: {
         UserId: USER_ID
@@ -28,7 +28,7 @@ function AccountInfoPage() {
     }).then((response) => {
       setReturnUserAccountInfo(response.data)
     })
-    Axios.get(`http://localhost:3002/api/fetchAccountSubscribed`,
+    Axios.get(`https://cs411-teamteam.uc.r.appspot.com/api/fetchAccountSubscribed`,
     {
       params: {
         UserId: USER_ID
@@ -39,7 +39,7 @@ function AccountInfoPage() {
   };
 
   const updateUserPassword = () => {
-    Axios.put(`http://localhost:3002/api/updatePassword`, {
+    Axios.put(`https://cs411-teamteam.uc.r.appspot.com/api/updatePassword`, {
       UserId : USER_ID,
       OldPassword : OldPassword,
       NewPassword : NewPassword
@@ -47,14 +47,14 @@ function AccountInfoPage() {
   };
 
   const InsertStreamingService = () => {
-    Axios.put(`http://localhost:3002/api/insertStreamingService`, {
+    Axios.put(`https://cs411-teamteam.uc.r.appspot.com/api/insertStreamingService`, {
       Name : streamingServiceUpdate,
       UserId : USER_ID
     });
   };
 
   const deleteUserAccount = () => {
-    Axios.delete(`http://localhost:3002/api/deleteUser/`,
+    Axios.delete(`https://cs411-teamteam.uc.r.appspot.com/api/deleteUser/`,
     {data: {
       UserId: UserId,
       Password: Password
@@ -62,7 +62,7 @@ function AccountInfoPage() {
   };
 
   const deleteStreamingService = () => {
-    Axios.delete(`http://localhost:3002/api/deleteStreamingService`,
+    Axios.delete(`https://cs411-teamteam.uc.r.appspot.com/api/deleteStreamingService`,
     {data: {
       Name: streamingServiceUpdate,
       UserId : USER_ID

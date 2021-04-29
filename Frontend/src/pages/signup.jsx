@@ -11,7 +11,7 @@ const SignUpPage = () => {
   const history = useHistory();
   
   const submitNewUserID = (event) => {
-    Axios.post('http://localhost:3002/api/insertNewUser', {
+    Axios.post('https://cs411-teamteam.uc.r.appspot.com/api/insertNewUser', {
       newUserId: newUserId,
       newPassword: newPassword,
       newBirthday: newBirthday
