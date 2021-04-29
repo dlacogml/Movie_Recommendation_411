@@ -18,16 +18,16 @@ var userID;
 //   });
 
 let config = {
-    // user: 'root',
-    // database: 'TeamTeam',
-    // password: 'teamteam'
-    user: process.env.SQL_USER,
-    database: process.env.SQL_DATABASE,
-    password: process.env.SQL_PASSWORD,
+    user: 'root',
+    database: 'TeamTeam',
+    password: 'teamteam'
+    // user: process.env.SQL_USER,
+    // database: process.env.SQL_DATABASE,
+    // password: process.env.SQL_PASSWORD,
 }
 
-if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
-  config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+if ('cs411-teamteam:us-central1:team32') {
+  config.socketPath = `/cloudsql/${'cs411-teamteam:us-central1:team32'}`;
 }
 // if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
 //   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
