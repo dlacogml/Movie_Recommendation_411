@@ -38,6 +38,22 @@ app.get("/api/fetchAccountInfo", (request, result) => {
     });
 })
 
+app.get("/api/fetchAccountSubscribed", (request, result) => {
+  // console.log(request.body);
+  const userID = request.query.UserId;
+  const password = request.query.password;
+
+  console.log(userID);
+  const sql = "SELECT DISTINCT Name FROM subscribed WHERE User_id = ?;";
+
+  db.query(sql, [userID], (err, results, fields) => {
+      console.log(results);
+      if (err) throw err
+      result.send(results);
+      // console.log("reached inside?");      
+  });
+})
+
 app.put("/api/updatePassword", (require, response) => {
     const NewPassword = require.body.NewPassword;
     const UserID = require.body.UserId;
@@ -50,6 +66,31 @@ app.put("/api/updatePassword", (require, response) => {
         console.log("reached inside?");      
     });
 })
+
+app.put("/api/insertStreamingService", (require, response) => {
+  const Name = require.body.Name;
+  const UserID = require.body.UserId;
+
+  const sqlUpdate = " INSERT INTO subscribed (Name, User_id) VALUES (? ,?);";
+  db.query(sqlUpdate, [Name, UserID], (err, result) => {
+      if (err) throw err
+      console.log("reached inside?");      
+  });
+})
+
+app.delete("/api/deleteStreamingService/", (require, response) => {
+  const UserId = require.body.UserId;
+  const Name = require.body.Name;
+  console.log(UserId);
+  console.log(Name);
+  const sqlDelete = "DELETE FROM subscribed WHERE User_id = ? AND Name LIKE CONCAT('%' , ? , '%')";
+  db.query(sqlDelete, [UserId, Name], (err, result) => {
+      if (err) 
+      console.log(error);
+      console.log("here2");
+  })
+});
+
 
 app.delete("/api/deleteUser/", (require, response) => {
     const deleteUserId = require.body.UserId;
@@ -80,10 +121,10 @@ app.post('/api/insertNewUser', (require, response) => {
 })
 
 app.get("/api/getMostPop", (request, result) => {
-    console.log("Searching for Movies");
+    // console.log("Searching for Movies");
     const sqlUpdate = "SELECT title, rating, genre FROM Movies ORDER BY rating desc LIMIT 20;";
     db.query(sqlUpdate, (err, results, fields) => {
-        console.log(fields);
+        // console.log(fields);
         if (err) throw err
         result.send(results);  
     });

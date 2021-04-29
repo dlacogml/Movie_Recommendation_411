@@ -14,7 +14,10 @@ function AccountInfoPage() {
   const[OldPassword, setOldPassword]=useState('');
   const[NewPassword, setNewPassword]=useState('');
 
+  const[streamingServiceUpdate, setStreamingServiceUpdate]=useState('');
+
   const[returnUserAccountInfo, setReturnUserAccountInfo]=useState([]);
+  const[returnUserAccountSubscribed, setReturnUserAccountSubscribed]=useState([]);
 
   const getAccountInfo = () => {
     Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
@@ -24,6 +27,14 @@ function AccountInfoPage() {
       }
     }).then((response) => {
       setReturnUserAccountInfo(response.data)
+    })
+    Axios.get(`http://localhost:3002/api/fetchAccountSubscribed`,
+    {
+      params: {
+        UserId: USER_ID
+      }
+    }).then((response) => {
+      setReturnUserAccountSubscribed(response.data)
     })
   };
 
@@ -35,11 +46,26 @@ function AccountInfoPage() {
     });
   };
 
+  const InsertStreamingService = () => {
+    Axios.put(`http://localhost:3002/api/insertStreamingService`, {
+      Name : streamingServiceUpdate,
+      UserId : USER_ID
+    });
+  };
+
   const deleteUserAccount = () => {
     Axios.delete(`http://localhost:3002/api/deleteUser/`,
     {data: {
       UserId: UserId,
       Password: Password
+    }})
+  };
+
+  const deleteStreamingService = () => {
+    Axios.delete(`http://localhost:3002/api/deleteStreamingService`,
+    {data: {
+      Name: streamingServiceUpdate,
+      UserId : USER_ID
     }})
   };
 
@@ -77,9 +103,9 @@ function AccountInfoPage() {
           </header>
           
           <div className="container">
-          <p>Your Account Info</p>
-          <p>* * *</p>
+          <h2>Your Account Info</h2>
           <button onClick = {() => {getAccountInfo()}} className="btn btn-outline-primary me-2">Show Account Details</button>
+          <p>* * *</p>
           <div className="text-end">
             {
               returnUserAccountInfo.map((val) => {
@@ -91,6 +117,34 @@ function AccountInfoPage() {
                 );
               })
             }
+          </div>
+          <h3> Subscriptions </h3>
+          <p>* * *</p>
+          <div className="text-end">
+            {
+              returnUserAccountSubscribed.map((val) => {
+                return(
+                  <div>
+                    <p>{val.Name}</p>
+                  </div>
+                );
+              })
+            }
+          </div>
+
+          <p>* * *</p>
+          <div className="text-end">
+            <h3>Subscription Update</h3>
+            <label>Subscription Name</label>
+            <div className="container"></div>
+            <input className = "text" type="text" name="streamingServiceUpdate" onChange={(e) => {setStreamingServiceUpdate(e.target.value)}}/>
+            <div className="container"></div>
+            <p>
+            <div className="container"></div>
+              <button onClick = {InsertStreamingService} className="btn btn-outline-primary me-2">Insert</button>
+            </p>
+            <div className="container"></div>
+              <button onClick = {deleteStreamingService} className="btn btn-outline-primary me-2">Delete</button>
           </div>
 
           <p>* * *</p>
