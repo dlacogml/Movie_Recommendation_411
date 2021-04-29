@@ -18,7 +18,7 @@ const LoginPage = () => {
   const history = useHistory();
 
   const getAccountInfo = () => {
-    Axios.get(`http://localhost:3002/api/fetchAccountInfo`,
+    Axios.get(`https://cs411-teamteam.uc.r.appspot.com/api/fetchAccountInfo`,
     {
       params: {
         UserId: userID
