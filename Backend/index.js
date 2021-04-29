@@ -33,8 +33,16 @@ if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production
 //   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
 // }
 
-let connection = mysql.createConnection(config);
-module.exports = connection;
+let db = mysql.createConnection(config);
+db.connect(function(err) {
+  if (err) {
+    console.error('Error connecting: ' + err.stack);
+    return;
+  }
+  console.log('Connected as thread id: ' + db.threadId);
+});
+
+module.exports = db;
 
 
 app.use(cors());
