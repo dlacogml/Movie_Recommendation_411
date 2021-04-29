@@ -30,12 +30,7 @@ const LoginPage = () => {
   const clicked = (event) =>{
       console.log(userID);
     getAccountInfo(userID);
-    // console.log(returnUserAccountInfo);
-    // console.log(returnUserAccountInfo[0].Password);
-    // if(returnUserAccountInfo.length == 0){
-    //     console.log('wtf');
-    //     return null;
-    // }
+
     if(returnUserAccountInfo.length == 0 || Password != returnUserAccountInfo[0].Password){
         // console.log('here')
         alert('Incorrect username or password, please try again')

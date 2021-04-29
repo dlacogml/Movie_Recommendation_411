@@ -22,12 +22,9 @@ function RecommendedPage () {
   };
 
   return (
-    // <div>
-    //   <h3>Welcome to the React Router Tutorial</h3>
-    //   <small>Main Page</small>
-    //   <button><Link to="/user">Show List of Users</Link></button>
-    // </div>
-    <div>
+    <div onload={getMoviesRecs()}>
+    {/* <body onload={getMoviesRecs()}></body> */}
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content />
@@ -57,6 +54,7 @@ function RecommendedPage () {
               <button type="button" className="btn btn-outline-primary me-2"><Link to="/Login">Login</Link></button>
               <button type="button" className="btn btn-primary"><Link to="/SignUp">Sign-Up</Link></button>
             </div>
+            {/* <body onload={getMostPop()}> */}
           </header>
           <p>Your Recommended Movies</p>
     
@@ -83,6 +81,7 @@ function RecommendedPage () {
           })}
           </div>
         </div>
+
       </div>
   );
 };

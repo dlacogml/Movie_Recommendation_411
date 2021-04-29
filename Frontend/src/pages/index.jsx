@@ -10,15 +10,15 @@ const MainPage = () => {
             setMostPop(response.data)
         })
       };
-    getMostPop()
+    
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
     //   <small>Main Page</small>
     //   <button><Link to="/user">Show List of Users</Link></button>
     // </div>
-    
-    <div>
+
+    <div onload={getMostPop()}>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content />
@@ -50,6 +50,7 @@ const MainPage = () => {
             </div>
           </header>
         </div>
+        
         <h2>Most popular movies</h2>
         
           <div className="container">
@@ -68,7 +69,7 @@ const MainPage = () => {
           })}
           </div>
           </div>
-
+          
 
 
   );
