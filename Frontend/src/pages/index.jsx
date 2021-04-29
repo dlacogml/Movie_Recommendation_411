@@ -10,6 +10,7 @@ const MainPage = () => {
             setMostPop(response.data)
         })
       };
+    getMostPop()
   return (
     // <div>
     //   <h3>Welcome to the React Router Tutorial</h3>
@@ -50,8 +51,8 @@ const MainPage = () => {
           </header>
         </div>
         <h2>Most popular movies</h2>
-        {getMostPop()}
-          <div className="container"></div>
+        
+          <div className="container">
           {mostPop.map((val) => {
             return(
               <grid className = "card">
@@ -65,6 +66,7 @@ const MainPage = () => {
               </grid>
             );
           })}
+          </div>
           </div>
 
 
