@@ -8,12 +8,7 @@ import AccountInfoPage from "./user"; ///< index.jsx will be automatically impor
 const LoginPage = () => {
 
   // sessionStorage.setItem('userID', userID)
-  var userID = null;
-  const setUserID = () =>{
-    userID = document.getElementById('floatingInput').value;
-    getAccountInfo(userID);
-
-  }
+  const [userID, setUserID] = useState('');
   sessionStorage.setItem('userID', userID)
     // const USER_ID = sessionStorage.getItem('userID');
   const[Password, setPassword]=useState('');
@@ -33,17 +28,20 @@ const LoginPage = () => {
     })
   };
   const clicked = (event) =>{
-    //   console.log(userID);
-    // getAccountInfo(document.getElementById('floatingInput').value);
-    // getAccountInfo(returnUserAccountInfo[0].Password);
-    // console.log(document.getElementById('floatingPassword').value);
-    // console.log('here');
-    if(returnUserAccountInfo.length == 0 || document.getElementById('floatingPassword').value != returnUserAccountInfo[0].Password){
+      console.log(userID);
+    getAccountInfo(userID);
+    // console.log(returnUserAccountInfo);
+    // console.log(returnUserAccountInfo[0].Password);
+    // if(returnUserAccountInfo.length == 0){
+    //     console.log('wtf');
+    //     return null;
+    // }
+    if(returnUserAccountInfo.length == 0 || Password != returnUserAccountInfo[0].Password){
         // console.log('here')
         alert('Incorrect username or password, please try again')
         return null;
     }
-    if(document.getElementById('floatingPassword').value == returnUserAccountInfo[0].Password){
+    if(Password == returnUserAccountInfo[0].Password){
         console.log('here');
         sessionStorage.setItem('userID', userID);
         history.push(event.target.value);
