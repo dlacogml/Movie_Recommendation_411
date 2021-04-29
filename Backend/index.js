@@ -98,8 +98,8 @@ app.get("/api/searchMoviesByTitle", (request, result) => {
     const user_id = request.query.user_id;
     console.log(flag);
     console.log(user_id);
-    if(flag){
-        const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+    if(flag== 'true'){
+        const sqlUpdate = "SELECT DISTINCT Recs.title, Recs.rating, Recs.genre FROM Have_movie JOIN (SELECT ID, title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ) as Recs USING (ID) WHERE Service_name IN (SELECT Name AS Service_name FROM subscribed WHERE User_id = ?) ORDER BY Recs.rating desc LIMIT 20;";
         db.query(sqlUpdate, [keyword,user_id], (err, results, fields) => {
         console.log(fields);
         if (err) throw err
@@ -123,8 +123,8 @@ app.get("/api/searchMoviesByGenre", (request, result) => {
     const user_id = request.query.user_id;
     console.log(flag);
     console.log(user_id);
-    if(flag){
-        const sqlUpdate = "SELECT title, rating, genre FROM Movies WHERE title LIKE CONCAT('%' , ? , '%') ORDER BY rating desc LIMIT 20;";
+    if(flag == 'true'){
+        const sqlUpdate = "SELECT DISTINCT Recs.title, Recs.rating, Recs.genre FROM Have_movie JOIN (SELECT ID, title, rating, genre FROM Movies WHERE genre LIKE CONCAT('%' , ? , '%') ) as Recs USING (ID) WHERE Service_name IN (SELECT Name AS Service_name FROM subscribed WHERE User_id = ?) ORDER BY Recs.rating desc LIMIT 20;";
         db.query(sqlUpdate, [keyword,user_id], (err, results, fields) => {
         console.log(fields);
         if (err) throw err
