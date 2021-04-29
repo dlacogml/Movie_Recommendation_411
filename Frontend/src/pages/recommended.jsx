@@ -12,7 +12,7 @@ function RecommendedPage () {
   const USER_ID = sessionStorage.getItem('userID');
 
   const getMoviesRecs = () => {
-    Axios.get('http://localhost:3002/api/getMovieRecs', {
+    Axios.get('https://cs411-teamteam.uc.r.appspot.com/api/getMovieRecs', {
       params: {
           UserId:USER_ID
         }

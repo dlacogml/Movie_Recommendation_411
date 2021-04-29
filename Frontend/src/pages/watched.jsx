@@ -24,7 +24,7 @@ function WatchedPage () {
   const [newMovieRating, setNewMovieRating] = useState('');
 
   const getMoviesWatchedByUser = () => {
-    Axios.get('http://localhost:3002/api/searchMoviesWatched', {
+    Axios.get('https://cs411-teamteam.uc.r.appspot.com/api/searchMoviesWatched', {
       params: {
         UserId: USER_ID
       }
@@ -34,7 +34,7 @@ function WatchedPage () {
   };
 
   const updateMovieWatch = () => {
-    Axios.put(`http://localhost:3002/api/updateReview`, {
+    Axios.put(`https://cs411-teamteam.uc.r.appspot.com/api/updateReview`, {
       movieIDWatchedMovie: movieIDWatchedMovie,
       newMovieRating: newMovieRating,
       UserId: USER_ID
@@ -43,7 +43,7 @@ function WatchedPage () {
   };
 
   const submitNewWatchMovie = () => {
-    Axios.post(`http://localhost:3002/api/insertNewWatchMovie`, {
+    Axios.post(`https://cs411-teamteam.uc.r.appspot.com/api/insertNewWatchMovie`, {
       movieIDWatchedMovie: movieIDWatchedMovie,
       dateWatchedMovie: dateWatchedMovie,
       timeWatchedMovie: timeWatchedMovie,
@@ -56,7 +56,7 @@ function WatchedPage () {
   };
 
   const deleteWatchMovie = () => {
-    Axios.delete(`http://localhost:3002/api/delete/`,
+    Axios.delete(`https://cs411-teamteam.uc.r.appspot.com/api/delete/`,
       {data: {
       movieIDWatchedMovie:movieIDWatchedMovie,
       UserId: USER_ID
@@ -64,7 +64,7 @@ function WatchedPage () {
   };
 
   const getMovieIDbyTitle = () => {
-    Axios.get('http://localhost:3002/api/getMovieIDbyTitle', {
+    Axios.get('https://cs411-teamteam.uc.r.appspot.com/api/getMovieIDbyTitle', {
       params: {
         keyword:keyword
       }
