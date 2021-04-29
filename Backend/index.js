@@ -28,6 +28,7 @@ if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production
 }
 
 let connection = mysql.createConnection(config);
+module.exports = connection;
 
 
 app.use(cors());
