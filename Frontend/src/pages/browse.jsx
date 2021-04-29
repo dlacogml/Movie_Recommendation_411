@@ -13,7 +13,7 @@ import Axios from 'axios';
     const USER_ID = sessionStorage.getItem('userID');
     var flag = false;
     const getMoviesByTitle = () => {
-      Axios.get('http://localhost:3002/api/searchMoviesByTitle', {
+      Axios.get('https://cs411-teamteam.uc.r.appspot.com/api/searchMoviesByTitle', {
         params: {
           flag:document.getElementById('checkbox').checked,
           user_id : USER_ID,
@@ -25,7 +25,7 @@ import Axios from 'axios';
     };
 
     const getMoviesByGenre = () => {
-      Axios.get('http://localhost:3002/api/searchMoviesByGenre', {
+      Axios.get('https://cs411-teamteam.uc.r.appspot.com/api/searchMoviesByGenre', {
         params: {
           flag:document.getElementById('checkbox').checked,
           user_id : USER_ID,

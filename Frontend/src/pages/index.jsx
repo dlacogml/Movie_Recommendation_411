@@ -6,7 +6,7 @@ import Axios from 'axios';
 const MainPage = () => {
     const [mostPop, setMostPop] = useState([]);
     const getMostPop = () => {
-        Axios.get('http://localhost:3002/api/getMostPop').then((response) => {
+        Axios.get('https://cs411-teamteam.uc.r.appspot.com/api/getMostPop').then((response) => {
             setMostPop(response.data)
         })
       };
