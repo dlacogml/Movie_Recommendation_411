@@ -5,17 +5,29 @@ const mysql = require("mysql");
 const cors = require("cors");
 var userID; 
 
-var db = mysql.createConnection({
-    host: '34.121.53.55',
-    user: 'root',
-    password: 'teamteam',
-    database: 'TeamTeam'
-})
+// var db = mysql.createConnection({
+//     host: '34.121.53.55',
+//     user: 'root',
+//     password: 'teamteam',
+//     database: 'TeamTeam'
+// })
 
-db.connect(function(err) {
-    if (err) throw err;
-    // console.log("Connected!");
-  });
+// db.connect(function(err) {
+//     if (err) throw err;
+//     // console.log("Connected!");
+//   });
+
+let config = {
+    user: process.env.SQL_USER,
+    database: process.env.SQL_DATABASE,
+    password: process.env.SQL_PASSWORD,
+}
+
+if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
+  config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+}
+
+let connection = mysql.createConnection(config);
 
 
 app.use(cors());
@@ -25,8 +37,7 @@ app.use(express.json());
 app.get("/api/fetchAccountInfo", (request, result) => {
     // console.log(request.body);
     const userID = request.query.UserId;
-    const password = request.query.password;
-
+    console.log("i hate this class");
     console.log(userID);
     const sql = "SELECT * FROM User WHERE User_id = ?;";
 
@@ -41,7 +52,6 @@ app.get("/api/fetchAccountInfo", (request, result) => {
 app.get("/api/fetchAccountSubscribed", (request, result) => {
   // console.log(request.body);
   const userID = request.query.UserId;
-  const password = request.query.password;
 
   console.log(userID);
   const sql = "SELECT DISTINCT Name FROM subscribed WHERE User_id = ?;";
