@@ -18,6 +18,9 @@ var userID;
 //   });
 
 let config = {
+    // user: 'root',
+    // database: 'TeamTeam',
+    // password: 'teamteam'
     user: process.env.SQL_USER,
     database: process.env.SQL_DATABASE,
     password: process.env.SQL_PASSWORD,
@@ -26,6 +29,9 @@ let config = {
 if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
 }
+// if (process.env.INSTANCE_CONNECTION_NAME && process.env.NODE_ENV === 'production') {
+//   config.socketPath = `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}`;
+// }
 
 let connection = mysql.createConnection(config);
 module.exports = connection;
@@ -363,7 +369,7 @@ app.post('/api/insertNewWatchMovie', (require, response) => {
     })
   })
 
-app.listen(3002, () => {
+app.listen(8080, () => {
     console.log("running on port 3002");
 })
 
